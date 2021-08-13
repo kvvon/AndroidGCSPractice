@@ -6,11 +6,215 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!--    <Button-->
+    <!--        android:id="@+id/button"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Button"-->
+    <!--        tools:layout_editor_absoluteX="127dp"-->
+    <!--        tools:layout_editor_absoluteY="306dp" />-->
+
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="127dp"
-        tools:layout_editor_absoluteY="306dp" />
+        android:id="@+id/btnConnect"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/connectionTypeLabel"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:backgroundTint="#31A2FB"
+        android:onClick="onBtnConnectTap"
+        android:text="Connect"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/map"
+        app:layout_constraintEnd_toEndOf="@+id/map"
+        tools:ignore="UnknownId" />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.naver.maps.map.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#80000000"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/volt"
+                android:layout_width="51dp"
+                android:layout_height="match_parent"
+                android:text="전압:"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/voltview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="0V"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+
+        </TableRow>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:text="비행모드:"
+            android:textColor="#ffffff"
+            android:textSize="20dp" />
+
+        <Spinner
+            android:id="@+id/modeSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:addStatesFromChildren="true"
+            android:dropDownWidth="wrap_content"
+            android:textColor="#ffffff"
+            android:visibility="visible"
+            tools:visibility="visible" />
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/altitudeLabelTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="고도:"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/altitudeValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="0m"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/speedLabelTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="속도:"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/speedValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="0m/s"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/yaw"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="yaw:"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/yawview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="0deg"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/satellite"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="위성:"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/satelliteview"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:text="0"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+
+        </TableRow>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/armButton"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:backgroundTint="#FF9800"
+        android:text="ARM"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/map"
+        app:layout_constraintStart_toStartOf="@+id/map" />
+
+
 </android.support.constraint.ConstraintLayout>
