@@ -13,6 +13,7 @@ buildscript {
     repositories {
         jcenter()
         google()
+
     }
 
     dependencies {
@@ -115,13 +116,17 @@ allprojects {
     repositories {
         google()
         jcenter()
-
+        mavenCentral()
         maven {
             url getMavenRepoUrl()
             credentials {
                 username getMavenUsername()
                 password getMavenApiKey()
             }
+        }
+
+        maven {
+            url 'https://naver.jfrog.io/artifactory/maven/'
         }
 
         // 네이버 지도 저장소
