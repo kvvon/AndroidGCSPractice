@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="map_type">
+        <item>일반지도</item>
+        <item>위성지도</item>
+        <item>지형지도</item>
+    </string-array>
+</resources>

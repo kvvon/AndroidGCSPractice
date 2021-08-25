@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
@@ -59,7 +61,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, DroneListener, TowerListener, LinkListener {
 
     private NaverMap mMap;
+    Spinner maptype_spinner;
     private static final String TAG = MainActivity.class.getSimpleName();
+    private double mTakeoffAltitude = 5.5;
 
     private Drone drone;
     private int droneType = Type.TYPE_UNKNOWN;
@@ -70,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final int DEFAULT_USB_BAUD_RATE = 57600;
 
     private Spinner modeSelector;
+
+    Button altitudeControl;
+    Button addAltitude;
+    Button subAltitude;
 
     private Button startVideoStream;
     private Button stopVideoStream;
@@ -111,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mapFragment.getMapAsync(this);
 
-
+        initViews();
     }
     //드론 연결 및 해제
     public void onBtnConnectTap(View view) {
@@ -166,17 +174,45 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             alertUser("Connect to a drone first");
         } else {
             // Connected but not Armed
-            VehicleApi.getApi(this.drone).arm(true, false, new SimpleCommandListener() {
-                @Override
-                public void onError(int executionError) {
-                    alertUser("Unable to arm vehicle.");
-                }
+//            VehicleApi.getApi(this.drone).arm(true, false, new SimpleCommandListener() {
+//                @Override
+//                public void onError(int executionError) {
+//                    alertUser("Unable to arm vehicle.");
+//                }
+//
+//                @Override
+//                public void onTimeout() {
+//                    alertUser("Arming operation timed out.");
+//                }
+//            });
+            AlertDialog.Builder armAlertBuilder =
+                    new AlertDialog.Builder(MainActivity.this);
 
-                @Override
-                public void onTimeout() {
-                    alertUser("Arming operation timed out.");
+            armAlertBuilder.setTitle("모터 가동");
+            armAlertBuilder.setMessage("모터를 가동합니다.\n모터가 고속으로 회전합니다.");
+            armAlertBuilder.setPositiveButton("확인",new DialogInterface.OnClickListener(){
+                public void onClick(DialogInterface dialog, int which){
+                    VehicleApi.getApi(drone).arm(true, false, new SimpleCommandListener() {
+                        @Override
+                        public void onError(int executionError) {
+                            alertUser("Unable to arm vehicle.");
+                        }
+
+                        @Override
+                        public void onTimeout() {
+                            alertUser("Arming operation timed out.");
+                        }
+                    });
+
                 }
             });
+            armAlertBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            armAlertBuilder.show();
         }
     }
 
@@ -197,6 +233,59 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(@NonNull @org.jetbrains.annotations.NotNull NaverMap naverMap) {
         mMap = naverMap;
         mMap.setMapType(NaverMap.MapType.Satellite);
+
+        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(35.945256,126.682133));
+        naverMap.moveCamera(cameraUpdate);
+
+        maptype_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    mMap.setMapType(NaverMap.MapType.Basic);
+                } else if (position == 1) {
+                    mMap.setMapType(NaverMap.MapType.Satellite);
+                } else if (position == 2) {
+                    mMap.setMapType(NaverMap.MapType.Terrain);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void initViews() {
+        maptype_spinner = findViewById(R.id.maptype_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.map_type, R.layout.custom_spinner_item);
+        adapter.setDropDownViewResource(R.layout.custom_spinner_item_click);
+        maptype_spinner.setAdapter(adapter);
+        altitudeControl = findViewById(R.id.altitudeControl);
+        addAltitude = findViewById(R.id.addAltitude);
+        subAltitude = findViewById(R.id.subAltitude);
+
+        addAltitude.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mTakeoffAltitude<10){
+                    mTakeoffAltitude = mTakeoffAltitude + 0.5;
+                    altitudeControl.setText("이륙고도\n"+(double)mTakeoffAltitude  +"m");
+                }
+            }
+        });
+        subAltitude.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mTakeoffAltitude>3){
+                    mTakeoffAltitude = mTakeoffAltitude - 0.5;
+                    altitudeControl.setText("이륙고도\n"+(double)mTakeoffAltitude +"m");
+                }
+            }
+        });
+
     }
 
     @Override

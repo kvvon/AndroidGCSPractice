@@ -14,6 +14,7 @@
     <!--        tools:layout_editor_absoluteX="127dp"-->
     <!--        tools:layout_editor_absoluteY="306dp" />-->
 
+
     <Button
         android:id="@+id/btnConnect"
         android:layout_width="150dp"
@@ -37,6 +38,14 @@
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
+
+    <Spinner
+        android:id="@+id/maptype_spinner"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:background="@drawable/spinner_back"
+        app:layout_constraintBottom_toTopOf="@+id/btnConnect"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -210,12 +219,39 @@
         android:layout_width="150dp"
         android:layout_height="60dp"
         android:backgroundTint="#FF9800"
+        android:onClick="onArmButtonTap"
         android:text="ARM"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
-        android:onClick="onArmButtonTap"
         app:layout_constraintBottom_toBottomOf="@+id/map"
         app:layout_constraintStart_toStartOf="@+id/map" />
+
+    <Button
+        android:id="@+id/altitudeControl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="이륙고도\n5.5m"
+        app:layout_constraintEnd_toEndOf="@+id/map"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+    <Button
+        android:id="@+id/addAltitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="+0.5M"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/altitudeControl" />
+
+    <Button
+        android:id="@+id/subAltitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="-0.5M"
+        app:layout_constraintEnd_toEndOf="@+id/map"
+        app:layout_constraintTop_toBottomOf="@+id/addAltitude" />
 
 
 </android.support.constraint.ConstraintLayout>
